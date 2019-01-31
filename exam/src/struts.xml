@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<!-- Strtusの詳細設定 -->
+
+<struts>
+
+	<constant name="struts.ui.theme" value="simple" />
+	<!-- <constant name="struts.devMode" value="true" /> -->
+	<constant name="struts.xwork.chaining.copyErrors" value="true"/>
+	
+	
+	
+	<!--  対象のpackageを設定 -->
+	<package name="com.action" extends="struts-default">
+		
+		<action name="HomeAction" class="com.action.HomeAction" method="first">
+			<result name="login">home.jsp</result>	
+			<result name="success">userInfo.jsp</result>	
+		</action>
+		
+<!-- ログインしたら最後のID・PASSをクッキーへ -->
+		<action name="LoginAction" class="com.action.LoginAction" method="login">
+		 	<interceptor-ref name="defaultStack"/>
+		 <!-- エラー500が出たらここの可能性大 -->
+			<!-- <interceptor-ref name="cookie" >
+		    	<param name="cookiesName">*</param>
+		    	<param name="cookiesValue">*</param>
+		 	</interceptor-ref> -->
+		 	
+			<result name="success">userInfo.jsp</result>
+			<result name="error">home.jsp</result>
+			<result name="root">admin.jsp</result>
+		</action>
+		
+<!-- 検索機能 -->
+		<action name="Search" class="com.action.Search" method="execute">
+			<result name="success">searchResult.jsp</result>
+		</action>
+		
+<!-- ソート機能 -->
+		<action name="Sort" class="com.action.Sort" method="execute">
+			<result name="success">userInfo.jsp</result>
+		</action>
+		
+<!-- カート機能 -->
+		<action name="Cart" class="com.action.Cart" method="execute">
+			<result name="success">userInfo.jsp</result>
+			<result name="error">userInfo.jsp</result>
+		</action>
+		
+<!-- カート内削除 -->
+		<action name="DeleteCart" class="com.dao.DeleteCart">
+			<result name="success">userInfo.jsp</result>
+			<result name="error">userInfo.jsp</result>
+		</action>
+		
+<!-- 履歴削除機能 -->
+		<action name="Delete" class="com.dao.DeleteDAO" method="execute">
+			<result name="success">userInfo.jsp</result>
+		</action>
+		
+<!-- ユーザー登録 -->
+		<action name="ToUserCreatePage" class="com.action.ToUserCreatePage" method="execute">
+			<result name="success">userCreate.jsp</result>
+		</action>
+		
+		<action name="UserCreateCheckDuplication" class="com.action.UserCreateCheckDuplication" method="checkDuplication">
+			<result name="success">userCreateConfirm.jsp</result>
+			<result name="error">userCreate.jsp</result>
+		</action>
+		
+		<action name="UserInsert" class="com.action.UserInsert" method="Insert">
+			<result name="success">userCreateComplete.jsp</result>
+			<result name="error">userCreate.jsp</result>
+		</action>
+		
+				
+<!-- 宛先追加機能 -->
+		<action name="AddressCheck" class="com.action.AddressCheck" method="execute">
+			<result name="success">addressCheck.jsp</result>
+		</action>
+		
+		
+		<action name="AddressReset" class="com.action.AddressReset" method="execute">
+			<result name="success">userInfo.jsp</result>
+			<result name="error">addressCheck.jsp</result>
+		</action>
+		
+<!-- パスワード再設定 -->
+		<action name="ResetPassword" class="com.action.ResetPassword" method="execute">
+			<result name="success">userInfo.jsp</result>
+			<result name="error">resetPassword.jsp</result>
+		</action>
+		
+		
+<!-- 買い物画面以降 -->
+		<action name="ToShoppingTop" class="com.action.ToShoppingTop" method="startShopping">
+			<result name="success">shoppingTop.jsp</result>
+		</action>
+		
+<!-- Category.jspに表示するためのAction --><!-- これによってpc.jspなどが必要なくなった -->
+		<action name="Category" class="com.action.Category" method="execute">
+			 <result name="success">Items/category.jsp</result>
+		</action>
+		
+		<action name="ToBuyPage" class="com.action.ToBuyPage" method="buy">
+			<result name="success">buyPage.jsp</result>
+		</action>
+		
+		<action name="BuyConfirm" class="com.action.BuyConfirm" method="calculate">
+			<result name="success">buyConfirm.jsp</result>
+		</action>
+		
+		<action name="ToAddressForm" class="com.action.ToAddressForm" method="addressFrom">
+			<result name="success">addressForm.jsp</result>
+		</action>
+		
+		<action name="ToConfirmAddress" class="com.action.ToConfirmAddress" method="confirmAddress">
+			<result name="success">confirmAddress.jsp</result>
+			<result name="error">addressForm.jsp</result>
+			<result name="login">home.jsp</result>
+		</action>
+		
+		<action name="BUY" class="com.action.BUY" method="buy">
+			<result name="success">buyComplete.jsp</result>
+		</action>
+		
+		<action name="Logout" class="com.action.Logout" method="logout">
+			<result name="success">home.jsp</result>
+		</action>
+		
+		
+<!-- 管理者画面 -->
+	<!-- 商品管理 -->
+		<action name="ToItemAdd" class="com.action.ToItemAdd" method="execute">
+			<result name="success">itemAdd.jsp</result>
+		</action>
+		
+		<action name="ItemAdd" class="com.action.ItemAdd" method="execute">
+			<result name="success">itemAddComplete.jsp</result>
+			<result name="error">itemAdd.jsp</result>
+		</action>
+		
+		<action name="ToAllItemPage" class="com.action.ToAllItemPage" method="execute">
+			<result name="success">AllItemPage.jsp</result>
+		</action>
+		
+		
+	<!-- ユーザー登録 -->
+		<action name="ToUserAdd" class="com.action.ToUserAdd" method="execute">
+			<result name="success">userAdd.jsp</result>
+		</action>
+		
+		<action name="UserAdd" class="com.action.UserAdd" method="execute">
+			<result name="success">userAddComplete.jsp</result>
+			<result name="error">userAdd.jsp</result>
+		</action>
+		
+		<action name="ToAllUserPage" class="com.action.ToAllUserPage" method="execute">
+			<result name="success">AllUserPage.jsp</result>
+		</action>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+	
+		
+		
+		
+		
+		
+		<!-- 実装中 -->
+		<action name="cookie" class="com.cookie.Action.CookieTest" method="execute">
+			<result name="success">/Cookie/cookie_test.jsp</result>
+			<!-- デフォルトスタックが無いと値が渡らない -->
+			<!-- デフォルトスタックは２つ以上あるとエラー -->
+			<!-- <interceptor-ref name="default-stack" /> -->
+			<interceptor-ref name="cookie">
+		    	<param name="cookiesName">*</param>
+		    	<param name="cookiesValue">*</param>
+		 	</interceptor-ref>
+		</action>
+
+		
+		
+		
+		
+		
+	</package>
+</struts>
